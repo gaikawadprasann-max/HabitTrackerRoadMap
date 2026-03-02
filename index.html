@@ -1,2 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Habit Tracker — 1 Month Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD600;
+    --blue: #00B4D8;
+    --dark: #0d0d0d;
+    --card: #161616;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --muted: #888;
+    --green: #00E676;
+    --orange: #FF6B35;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
 
-<h1> Hello world </h1>
+  /* HEADER */
+  header { text-align: center; margin-bottom: 3rem; }
+  header .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--yellow);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: rgba(255,214,0,0.08);
+    border: 1px solid rgba(255,214,0,0.25);
+    padding: 0.3rem 0.9rem;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  header h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+  }
+  header h1 span { color: var(--yellow); }
+  header p {
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+  }
+
+  /* TECH STACK */
+  .stack {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    justify-content: center; margin-bottom: 3rem;
+  }
+  .stack span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--blue);
+    background: rgba(0,180,216,0.06);
+    letter-spacing: 0.05em;
+  }
+
+  /* WEEK CARDS */
+  .week {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .week:hover { border-color: var(--yellow); }
+
+  .week-header {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+  }
+  .week-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .w1 .week-num { background: rgba(255,214,0,0.15); color: var(--yellow); border: 1px solid rgba(255,214,0,0.3); }
+  .w2 .week-num { background: rgba(0,180,216,0.12); color: var(--blue); border: 1px solid rgba(0,180,216,0.3); }
+  .w3 .week-num { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
+  .w4 .week-num { background: rgba(255,107,53,0.1); color: var(--orange); border: 1px solid rgba(255,107,53,0.3); }
+
+  .week-title { font-size: 1.05rem; font-weight: 700; }
+  .week-sub { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+
+  .week-body { padding: 1.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width: 580px) { .week-body { grid-template-columns: 1fr; } }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .section-label.learn { color: var(--blue); }
+  .section-label.build { color: var(--yellow); }
+
+  ul { list-style: none; }
+  ul li {
+    font-size: 0.87rem;
+    padding: 0.3rem 0;
+    padding-left: 1.1rem;
+    position: relative;
+    color: #ccc;
+    line-height: 1.4;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  ul li:last-child { border-bottom: none; }
+  ul li::before {
+    content: '→';
+    position: absolute; left: 0;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* DELIVERABLE BADGE */
+  .deliverable {
+    grid-column: 1 / -1;
+    background: rgba(255,214,0,0.05);
+    border: 1px dashed rgba(255,214,0,0.25);
+    border-radius: 4px;
+    padding: 0.7rem 1rem;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .deliverable .icon { font-size: 1rem; margin-top: 0.05rem; }
+  .deliverable p { font-size: 0.83rem; color: #bbb; line-height: 1.5; }
+  .deliverable strong { color: var(--yellow); font-weight: 700; }
+
+  /* TIPS */
+  .tips-box {
+    margin-top: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .tips-box .tips-head {
+    background: var(--card);
+    padding: 0.8rem 1.2rem;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border);
+  }
+  .tips-box .tips-body {
+    padding: 1rem 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.8rem;
+  }
+  .tip {
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px;
+    padding: 0.7rem;
+    font-size: 0.82rem;
+    color: #aaa;
+    line-height: 1.5;
+  }
+  .tip strong { color: var(--text); font-size: 0.8rem; display: block; margin-bottom: 0.2rem; }
+
+  /* FEATURE TABLE */
+  .feature-section { margin-top: 2.5rem; }
+  .feature-section h3 {
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 0.6rem;
+  }
+  .feat {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.82rem;
+    color: #bbb;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .feat .dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  }
+  .feat.w1-f .dot { background: var(--yellow); }
+  .feat.w2-f .dot { background: var(--blue); }
+  .feat.w3-f .dot { background: var(--green); }
+  .feat.w4-f .dot { background: var(--orange); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+  <div class="tag">// 1-Month Learning Roadmap</div>
+  <h1>Habit Tracker Project <span>Roadmap</span></h1>
+  <p>
+    Built and authored by <strong>Prasann</strong> · <strong>Prasannova Solutions</strong><br>
+    ASP.NET MVC → Identity → Google Login → EF Core → Google Fit → Dashboard
+  </p>
+</header>
+
+  <div class="stack">
+    <span>ASP.NET MVC</span>
+    <span>Entity Framework Core</span>
+    <span>SQL Server</span>
+    <span>ASP.NET Identity</span>
+    <span>Google OAuth 2.0</span>
+    <span>Google Fit API</span>
+    <span>Bootstrap 5</span>
+    <span>Chart.js</span>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week w1">
+    <div class="week-header">
+      <span class="week-num">WEEK 01</span>
+      <span class="week-title">Foundation — MVC, EF Core & Database</span>
+      <span class="week-sub">Days 1–7</span>
+    </div>
+    <div class="week-body">
+      <div>
+        <div class="section-label learn">📘 Learn First</div>
+        <ul>
+          <li>MVC project structure (Controllers, Views, Models)</li>
+          <li>Razor syntax — @Model, @foreach, forms</li>
+          <li>EF Core: DbContext, Migrations, relationships</li>
+          <li>Code-First approach: one-to-many (User → Habits)</li>
+          <li>LINQ basics: .Where(), .ToList(), .FirstOrDefault()</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label build">🔨 Then Build</div>
+        <ul>
+          <li>Create <code>Habit</code>, <code>HabitLog</code> models</li>
+          <li>Run first migration → SQL Server DB created</li>
+          <li>CRUD for Habits (List, Create, Edit, Delete)</li>
+          <li>Mark habit as done today (checkbox → POST)</li>
+          <li>View weekly habit table like the image</li>
+        </ul>
+      </div>
+      <div class="deliverable">
+        <span class="icon">✅</span>
+        <p><strong>Week 1 Goal:</strong> You can add habits and mark them done each day. The grid table (like your screenshot) shows checkmarks per date.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week w2">
+    <div class="week-header">
+      <span class="week-num">WEEK 02</span>
+      <span class="week-title">Auth — Identity + Google Login</span>
+      <span class="week-sub">Days 8–14</span>
+    </div>
+    <div class="week-body">
+      <div>
+        <div class="section-label learn">📘 Learn First</div>
+        <ul>
+          <li>ASP.NET Identity — scaffold, UserManager, SignInManager</li>
+          <li>What is OAuth 2.0? (just the concept, 30 min)</li>
+          <li>Google Cloud Console → create OAuth credentials</li>
+          <li>Configure AddGoogle() in Program.cs</li>
+          <li>Protect routes with [Authorize] attribute</li>
+          <li>ClaimsPrincipal — get logged-in user ID</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label build">🔨 Then Build</div>
+        <ul>
+          <li>Scaffold Identity pages (Login, Register)</li>
+          <li>Add "Login with Google" button</li>
+          <li>Tie Habits to logged-in user (UserId FK)</li>
+          <li>Each user sees only their own habits</li>
+          <li>Nav bar: show username + logout</li>
+        </ul>
+      </div>
+      <div class="deliverable">
+        <span class="icon">✅</span>
+        <p><strong>Week 2 Goal:</strong> Users can register, log in with Google, and each sees their own private habit list. No more shared data.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week w3">
+    <div class="week-header">
+      <span class="week-num">WEEK 03</span>
+      <span class="week-title">Google Fit Integration — Calories & Distance</span>
+      <span class="week-sub">Days 15–21</span>
+    </div>
+    <div class="week-body">
+      <div>
+        <div class="section-label learn">📘 Learn First</div>
+        <ul>
+          <li>What is Google Fit REST API? (read docs overview)</li>
+          <li>OAuth scopes for Fitness — fitness.activity.read</li>
+          <li>How to store OAuth tokens in DB (refresh token)</li>
+          <li>HttpClient in C# — GET request to Fit API</li>
+          <li>Parse JSON response with System.Text.Json</li>
+          <li>Aggregate data points — calories, steps, distance</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label build">🔨 Then Build</div>
+        <ul>
+          <li>Request fitness scope on Google login</li>
+          <li>Save access + refresh tokens to DB</li>
+          <li>GoogleFitService — fetch today's calories & km</li>
+          <li>Show calories burned on dashboard card</li>
+          <li>Show km distance on dashboard card</li>
+          <li>Set daily goals (user can edit target kcal / km)</li>
+        </ul>
+      </div>
+      <div class="deliverable">
+        <span class="icon">✅</span>
+        <p><strong>Week 3 Goal:</strong> Dashboard shows today's calories burned and km walked from Google Fit. User can set a goal and see progress.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 4 -->
+  <div class="week w4">
+    <div class="week-header">
+      <span class="week-num">WEEK 04</span>
+      <span class="week-title">Dashboard, Charts & Polish</span>
+      <span class="week-sub">Days 22–30</span>
+    </div>
+    <div class="week-body">
+      <div>
+        <div class="section-label learn">📘 Learn First</div>
+        <ul>
+          <li>Chart.js basics — bar chart, line chart via CDN</li>
+          <li>Pass C# data to JS (JSON.Serialize in Razor)</li>
+          <li>Bootstrap 5 grid layout for dashboard cards</li>
+          <li>Partial Views / ViewComponents in MVC</li>
+          <li>Streak calculation logic (consecutive days)</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label build">🔨 Then Build</div>
+        <ul>
+          <li>Main dashboard: habit grid (like screenshot)</li>
+          <li>Streak counter per habit</li>
+          <li>Weekly habit completion bar chart</li>
+          <li>Calories & km progress bars with goals</li>
+          <li>Responsive layout — works on mobile</li>
+          <li>Clean up UI: consistent colors, icons</li>
+        </ul>
+      </div>
+      <div class="deliverable">
+        <span class="icon">✅</span>
+        <p><strong>Week 4 Goal:</strong> Full working app — habit grid, streaks, Google Fit stats, charts, goals. Ready to show or deploy.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES BY WEEK -->
+  <div class="feature-section">
+    <h3>// All Features — Color Coded by Week</h3>
+    <div class="features">
+      <div class="feat w1-f"><span class="dot"></span>Habit CRUD</div>
+      <div class="feat w1-f"><span class="dot"></span>Daily check-in grid</div>
+      <div class="feat w1-f"><span class="dot"></span>SQL Server DB</div>
+      <div class="feat w2-f"><span class="dot"></span>Google Login</div>
+      <div class="feat w2-f"><span class="dot"></span>User accounts</div>
+      <div class="feat w2-f"><span class="dot"></span>Private habit data</div>
+      <div class="feat w3-f"><span class="dot"></span>Calories burned</div>
+      <div class="feat w3-f"><span class="dot"></span>Distance (km)</div>
+      <div class="feat w3-f"><span class="dot"></span>Daily fitness goals</div>
+      <div class="feat w4-f"><span class="dot"></span>Dashboard charts</div>
+      <div class="feat w4-f"><span class="dot"></span>Streak counter</div>
+      <div class="feat w4-f"><span class="dot"></span>Mobile responsive</div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="tips-box">
+    <div class="tips-head">// Beginner Tips — Read This</div>
+    <div class="tips-body">
+      <div class="tip">
+        <strong>Learn → Build Loop</strong>
+        Watch/read a concept for 30–60 min, then immediately code it. Don't watch 3 hours before coding.
+      </div>
+      <div class="tip">
+        <strong>Resources</strong>
+        Use Microsoft Learn (free), Tim Corey on YouTube for ASP.NET, and official EF Core docs.
+      </div>
+      <div class="tip">
+        <strong>Git from Day 1</strong>
+        Commit every day. You will break things. Git lets you go back safely.
+      </div>
+      <div class="tip">
+        <strong>Google Fit API</strong>
+        This is the hardest part. Give yourself extra time in Week 3. The Postman app helps test API calls first.
+      </div>
+      <div class="tip">
+        <strong>Don't over-design</strong>
+        Get it working first. Bootstrap cards are fine. Polish in Week 4 only.
+      </div>
+      <div class="tip">
+        <strong>Stuck? That's normal</strong>
+        Google the exact error message. Stack Overflow + GitHub Issues solve 90% of problems.
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
