@@ -1,435 +1,743 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Habit Tracker — 1 Month Roadmap</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --yellow: #FFD600;
-    --blue: #00B4D8;
-    --dark: #0d0d0d;
-    --card: #161616;
-    --border: #2a2a2a;
-    --text: #e8e8e8;
-    --muted: #888;
-    --green: #00E676;
-    --orange: #FF6B35;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
-    min-height: 100vh;
-    padding: 2rem 1rem 4rem;
-  }
-  .container { max-width: 860px; margin: 0 auto; }
-
-  /* HEADER */
-  header { text-align: center; margin-bottom: 3rem; }
-  header .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--yellow);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    background: rgba(255,214,0,0.08);
-    border: 1px solid rgba(255,214,0,0.25);
-    padding: 0.3rem 0.9rem;
-    border-radius: 2px;
-    display: inline-block;
-    margin-bottom: 1rem;
-  }
-  header h1 {
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 0.6rem;
-  }
-  header h1 span { color: var(--yellow); }
-  header p {
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-  }
-
-  /* TECH STACK */
-  .stack {
-    display: flex; flex-wrap: wrap; gap: 0.5rem;
-    justify-content: center; margin-bottom: 3rem;
-  }
-  .stack span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    padding: 0.3rem 0.75rem;
-    border-radius: 3px;
-    border: 1px solid var(--border);
-    color: var(--blue);
-    background: rgba(0,180,216,0.06);
-    letter-spacing: 0.05em;
-  }
-
-  /* WEEK CARDS */
-  .week {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-  .week:hover { border-color: var(--yellow); }
-
-  .week-header {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 1rem 1.2rem;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-  }
-  .week-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    padding: 0.25rem 0.6rem;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-  .w1 .week-num { background: rgba(255,214,0,0.15); color: var(--yellow); border: 1px solid rgba(255,214,0,0.3); }
-  .w2 .week-num { background: rgba(0,180,216,0.12); color: var(--blue); border: 1px solid rgba(0,180,216,0.3); }
-  .w3 .week-num { background: rgba(0,230,118,0.1); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
-  .w4 .week-num { background: rgba(255,107,53,0.1); color: var(--orange); border: 1px solid rgba(255,107,53,0.3); }
-
-  .week-title { font-size: 1.05rem; font-weight: 700; }
-  .week-sub { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
-
-  .week-body { padding: 1.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media(max-width: 580px) { .week-body { grid-template-columns: 1fr; } }
-
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
-  .section-label.learn { color: var(--blue); }
-  .section-label.build { color: var(--yellow); }
-
-  ul { list-style: none; }
-  ul li {
-    font-size: 0.87rem;
-    padding: 0.3rem 0;
-    padding-left: 1.1rem;
-    position: relative;
-    color: #ccc;
-    line-height: 1.4;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  ul li:last-child { border-bottom: none; }
-  ul li::before {
-    content: '→';
-    position: absolute; left: 0;
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  /* DELIVERABLE BADGE */
-  .deliverable {
-    grid-column: 1 / -1;
-    background: rgba(255,214,0,0.05);
-    border: 1px dashed rgba(255,214,0,0.25);
-    border-radius: 4px;
-    padding: 0.7rem 1rem;
-    display: flex; align-items: flex-start; gap: 0.6rem;
-  }
-  .deliverable .icon { font-size: 1rem; margin-top: 0.05rem; }
-  .deliverable p { font-size: 0.83rem; color: #bbb; line-height: 1.5; }
-  .deliverable strong { color: var(--yellow); font-weight: 700; }
-
-  /* TIPS */
-  .tips-box {
-    margin-top: 2.5rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .tips-box .tips-head {
-    background: var(--card);
-    padding: 0.8rem 1.2rem;
-    font-size: 0.8rem;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    border-bottom: 1px solid var(--border);
-  }
-  .tips-box .tips-body {
-    padding: 1rem 1.2rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 0.8rem;
-  }
-  .tip {
-    background: rgba(255,255,255,0.03);
-    border-radius: 4px;
-    padding: 0.7rem;
-    font-size: 0.82rem;
-    color: #aaa;
-    line-height: 1.5;
-  }
-  .tip strong { color: var(--text); font-size: 0.8rem; display: block; margin-bottom: 0.2rem; }
-
-  /* FEATURE TABLE */
-  .feature-section { margin-top: 2.5rem; }
-  .feature-section h3 {
-    font-size: 0.7rem;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 0.6rem;
-  }
-  .feat {
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.7rem 0.9rem;
-    font-size: 0.82rem;
-    color: #bbb;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .feat .dot {
-    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-  }
-  .feat.w1-f .dot { background: var(--yellow); }
-  .feat.w2-f .dot { background: var(--blue); }
-  .feat.w3-f .dot { background: var(--green); }
-  .feat.w4-f .dot { background: var(--orange); }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prasann's Habit Tracker — 30-Day Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="container">
 
-  <header>
-  <div class="tag">// 1-Month Learning Roadmap</div>
-  <h1>Habit Tracker Project <span>Roadmap</span></h1>
-  <p>
-    Built and authored by <strong>Prasann</strong> · <strong>Prasannova Solutions</strong><br>
-    ASP.NET MVC → Identity → Google Login → EF Core → Google Fit → Dashboard
-  </p>
-</header>
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
 
-  <div class="stack">
-    <span>ASP.NET MVC</span>
-    <span>Entity Framework Core</span>
-    <span>SQL Server</span>
-    <span>ASP.NET Identity</span>
-    <span>Google OAuth 2.0</span>
-    <span>Google Fit API</span>
-    <span>Bootstrap 5</span>
-    <span>Chart.js</span>
-  </div>
+  <!-- NOISE OVERLAY -->
+  <div class="noise"></div>
 
-  <!-- WEEK 1 -->
-  <div class="week w1">
-    <div class="week-header">
-      <span class="week-num">WEEK 01</span>
-      <span class="week-title">Foundation — MVC, EF Core & Database</span>
-      <span class="week-sub">Days 1–7</span>
+  <!-- GRID BG -->
+  <canvas id="gridCanvas"></canvas>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span class="mono">// PROJECT ROADMAP</span>
+      <span class="pill">30 DAYS</span>
     </div>
-    <div class="week-body">
-      <div>
-        <div class="section-label learn">📘 Learn First</div>
-        <ul>
-          <li>MVC project structure (Controllers, Views, Models)</li>
-          <li>Razor syntax — @Model, @foreach, forms</li>
-          <li>EF Core: DbContext, Migrations, relationships</li>
-          <li>Code-First approach: one-to-many (User → Habits)</li>
-          <li>LINQ basics: .Where(), .ToList(), .FirstOrDefault()</li>
-        </ul>
-      </div>
-      <div>
-        <div class="section-label build">🔨 Then Build</div>
-        <ul>
-          <li>Create <code>Habit</code>, <code>HabitLog</code> models</li>
-          <li>Run first migration → SQL Server DB created</li>
-          <li>CRUD for Habits (List, Create, Edit, Delete)</li>
-          <li>Mark habit as done today (checkbox → POST)</li>
-          <li>View weekly habit table like the image</li>
-        </ul>
-      </div>
-      <div class="deliverable">
-        <span class="icon">✅</span>
-        <p><strong>Week 1 Goal:</strong> You can add habits and mark them done each day. The grid table (like your screenshot) shows checkmarks per date.</p>
-      </div>
+    <h1 class="hero-name">
+      <span class="name-prefix">Built by</span>
+      <span class="name-main" id="nameGlitch">PRASANN</span>
+    </h1>
+    <p class="hero-title">ASP.NET MVC Habit Tracker <span class="accent">→</span> Full Stack Journey</p>
+    <p class="hero-sub mono">Entity Framework Core · Identity · Google OAuth · Fit API · Dashboard</p>
+
+    <div class="hero-links">
+      <a href="https://github.com/Prasannthedeveloper" target="_blank" class="link-chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        Prasannthedeveloper
+      </a>
+      <a href="https://www.linkedin.com/in/prasann-gaikawad-6910b1317/" target="_blank" class="link-chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        Prasann Gaikawad
+      </a>
+    </div>
+
+    <div class="scroll-hint">
+      <span class="mono">scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- PROGRESS TRACKER (sticky) -->
+  <div class="progress-bar-wrap" id="progressWrap">
+    <div class="progress-bar-inner" id="progressBar"></div>
+    <div class="progress-weeks">
+      <span data-week="1">W1</span>
+      <span data-week="2">W2</span>
+      <span data-week="3">W3</span>
+      <span data-week="4">W4</span>
     </div>
   </div>
 
-  <!-- WEEK 2 -->
-  <div class="week w2">
-    <div class="week-header">
-      <span class="week-num">WEEK 02</span>
-      <span class="week-title">Auth — Identity + Google Login</span>
-      <span class="week-sub">Days 8–14</span>
-    </div>
-    <div class="week-body">
-      <div>
-        <div class="section-label learn">📘 Learn First</div>
-        <ul>
-          <li>ASP.NET Identity — scaffold, UserManager, SignInManager</li>
-          <li>What is OAuth 2.0? (just the concept, 30 min)</li>
-          <li>Google Cloud Console → create OAuth credentials</li>
-          <li>Configure AddGoogle() in Program.cs</li>
-          <li>Protect routes with [Authorize] attribute</li>
-          <li>ClaimsPrincipal — get logged-in user ID</li>
-        </ul>
-      </div>
-      <div>
-        <div class="section-label build">🔨 Then Build</div>
-        <ul>
-          <li>Scaffold Identity pages (Login, Register)</li>
-          <li>Add "Login with Google" button</li>
-          <li>Tie Habits to logged-in user (UserId FK)</li>
-          <li>Each user sees only their own habits</li>
-          <li>Nav bar: show username + logout</li>
-        </ul>
-      </div>
-      <div class="deliverable">
-        <span class="icon">✅</span>
-        <p><strong>Week 2 Goal:</strong> Users can register, log in with Google, and each sees their own private habit list. No more shared data.</p>
-      </div>
-    </div>
-  </div>
+  <!-- MAIN -->
+  <main class="main">
 
-  <!-- WEEK 3 -->
-  <div class="week w3">
-    <div class="week-header">
-      <span class="week-num">WEEK 03</span>
-      <span class="week-title">Google Fit Integration — Calories & Distance</span>
-      <span class="week-sub">Days 15–21</span>
-    </div>
-    <div class="week-body">
-      <div>
-        <div class="section-label learn">📘 Learn First</div>
-        <ul>
-          <li>What is Google Fit REST API? (read docs overview)</li>
-          <li>OAuth scopes for Fitness — fitness.activity.read</li>
-          <li>How to store OAuth tokens in DB (refresh token)</li>
-          <li>HttpClient in C# — GET request to Fit API</li>
-          <li>Parse JSON response with System.Text.Json</li>
-          <li>Aggregate data points — calories, steps, distance</li>
-        </ul>
+    <!-- TECH STACK -->
+    <section class="section stack-section" data-animate>
+      <div class="section-label mono">// TECH STACK</div>
+      <div class="stack-grid">
+        <div class="stack-card" data-delay="0">
+          <div class="stack-icon">⚙️</div>
+          <div class="stack-name">ASP.NET MVC</div>
+          <div class="stack-desc">Framework · Controllers, Views, Routing, Razor Pages</div>
+          <div class="stack-level"><span style="width:85%"></span></div>
+          <div class="stack-level-label mono">Will learn this month</div>
+        </div>
+        <div class="stack-card" data-delay="1">
+          <div class="stack-icon">🗄️</div>
+          <div class="stack-name">EF Core + SQL Server</div>
+          <div class="stack-desc">ORM · DbContext, Migrations, LINQ, Relationships</div>
+          <div class="stack-level"><span style="width:80%"></span></div>
+          <div class="stack-level-label mono">Foundation from CRUD</div>
+        </div>
+        <div class="stack-card" data-delay="2">
+          <div class="stack-icon">🔐</div>
+          <div class="stack-name">ASP.NET Identity</div>
+          <div class="stack-desc">Auth · UserManager, SignInManager, Claims, Roles</div>
+          <div class="stack-level"><span style="width:70%"></span></div>
+          <div class="stack-level-label mono">Week 2 focus</div>
+        </div>
+        <div class="stack-card" data-delay="3">
+          <div class="stack-icon">🔵</div>
+          <div class="stack-name">Google OAuth 2.0</div>
+          <div class="stack-desc">Login · Scopes, Tokens, Refresh, Callback</div>
+          <div class="stack-level"><span style="width:65%"></span></div>
+          <div class="stack-level-label mono">Week 2–3 bridge</div>
+        </div>
+        <div class="stack-card" data-delay="4">
+          <div class="stack-icon">🏃</div>
+          <div class="stack-name">Google Fit API</div>
+          <div class="stack-desc">REST · Calories, Distance, Steps, Data Sources</div>
+          <div class="stack-level"><span style="width:60%"></span></div>
+          <div class="stack-level-label mono">Week 3 challenge</div>
+        </div>
+        <div class="stack-card" data-delay="5">
+          <div class="stack-icon">📊</div>
+          <div class="stack-name">Chart.js</div>
+          <div class="stack-desc">Viz · Bar, Line, Doughnut, JSON bridging</div>
+          <div class="stack-level"><span style="width:75%"></span></div>
+          <div class="stack-level-label mono">Week 4 polish</div>
+        </div>
       </div>
-      <div>
-        <div class="section-label build">🔨 Then Build</div>
-        <ul>
-          <li>Request fitness scope on Google login</li>
-          <li>Save access + refresh tokens to DB</li>
-          <li>GoogleFitService — fetch today's calories & km</li>
-          <li>Show calories burned on dashboard card</li>
-          <li>Show km distance on dashboard card</li>
-          <li>Set daily goals (user can edit target kcal / km)</li>
-        </ul>
-      </div>
-      <div class="deliverable">
-        <span class="icon">✅</span>
-        <p><strong>Week 3 Goal:</strong> Dashboard shows today's calories burned and km walked from Google Fit. User can set a goal and see progress.</p>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- WEEK 4 -->
-  <div class="week w4">
-    <div class="week-header">
-      <span class="week-num">WEEK 04</span>
-      <span class="week-title">Dashboard, Charts & Polish</span>
-      <span class="week-sub">Days 22–30</span>
-    </div>
-    <div class="week-body">
-      <div>
-        <div class="section-label learn">📘 Learn First</div>
-        <ul>
-          <li>Chart.js basics — bar chart, line chart via CDN</li>
-          <li>Pass C# data to JS (JSON.Serialize in Razor)</li>
-          <li>Bootstrap 5 grid layout for dashboard cards</li>
-          <li>Partial Views / ViewComponents in MVC</li>
-          <li>Streak calculation logic (consecutive days)</li>
-        </ul>
-      </div>
-      <div>
-        <div class="section-label build">🔨 Then Build</div>
-        <ul>
-          <li>Main dashboard: habit grid (like screenshot)</li>
-          <li>Streak counter per habit</li>
-          <li>Weekly habit completion bar chart</li>
-          <li>Calories & km progress bars with goals</li>
-          <li>Responsive layout — works on mobile</li>
-          <li>Clean up UI: consistent colors, icons</li>
-        </ul>
-      </div>
-      <div class="deliverable">
-        <span class="icon">✅</span>
-        <p><strong>Week 4 Goal:</strong> Full working app — habit grid, streaks, Google Fit stats, charts, goals. Ready to show or deploy.</p>
-      </div>
-    </div>
-  </div>
+    <!-- WEEKS -->
 
-  <!-- FEATURES BY WEEK -->
-  <div class="feature-section">
-    <h3>// All Features — Color Coded by Week</h3>
-    <div class="features">
-      <div class="feat w1-f"><span class="dot"></span>Habit CRUD</div>
-      <div class="feat w1-f"><span class="dot"></span>Daily check-in grid</div>
-      <div class="feat w1-f"><span class="dot"></span>SQL Server DB</div>
-      <div class="feat w2-f"><span class="dot"></span>Google Login</div>
-      <div class="feat w2-f"><span class="dot"></span>User accounts</div>
-      <div class="feat w2-f"><span class="dot"></span>Private habit data</div>
-      <div class="feat w3-f"><span class="dot"></span>Calories burned</div>
-      <div class="feat w3-f"><span class="dot"></span>Distance (km)</div>
-      <div class="feat w3-f"><span class="dot"></span>Daily fitness goals</div>
-      <div class="feat w4-f"><span class="dot"></span>Dashboard charts</div>
-      <div class="feat w4-f"><span class="dot"></span>Streak counter</div>
-      <div class="feat w4-f"><span class="dot"></span>Mobile responsive</div>
-    </div>
-  </div>
+    <!-- WEEK 1 -->
+    <section class="week-section" id="week1" data-week="1">
+      <div class="week-marker">
+        <div class="week-num-big">01</div>
+        <div class="week-info">
+          <div class="week-tag w1-tag mono">WEEK ONE · DAYS 1–7</div>
+          <h2 class="week-heading">Foundation<br><span>MVC + EF Core + DB</span></h2>
+          <p class="week-summary">You already know CRUD — now we structure it properly. Build the habit grid, design the database schema, and wire up real data flow.</p>
+        </div>
+      </div>
 
-  <!-- TIPS -->
-  <div class="tips-box">
-    <div class="tips-head">// Beginner Tips — Read This</div>
-    <div class="tips-body">
-      <div class="tip">
-        <strong>Learn → Build Loop</strong>
-        Watch/read a concept for 30–60 min, then immediately code it. Don't watch 3 hours before coding.
-      </div>
-      <div class="tip">
-        <strong>Resources</strong>
-        Use Microsoft Learn (free), Tim Corey on YouTube for ASP.NET, and official EF Core docs.
-      </div>
-      <div class="tip">
-        <strong>Git from Day 1</strong>
-        Commit every day. You will break things. Git lets you go back safely.
-      </div>
-      <div class="tip">
-        <strong>Google Fit API</strong>
-        This is the hardest part. Give yourself extra time in Week 3. The Postman app helps test API calls first.
-      </div>
-      <div class="tip">
-        <strong>Don't over-design</strong>
-        Get it working first. Bootstrap cards are fine. Polish in Week 4 only.
-      </div>
-      <div class="tip">
-        <strong>Stuck? That's normal</strong>
-        Google the exact error message. Stack Overflow + GitHub Issues solve 90% of problems.
-      </div>
-    </div>
-  </div>
+      <div class="topics-grid">
+        <div class="topic-block learn-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">📘</span>
+            <span class="block-title mono">LEARN FIRST</span>
+            <span class="block-days mono">3 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item" data-topic="mvc-structure">
+              <div class="topic-head">
+                <span class="topic-name">MVC Project Structure</span>
+                <span class="topic-time mono">Day 1</span>
+              </div>
+              <div class="topic-detail">
+                <p>Understand how Controllers → Actions → Views work. A Controller is a C# class, each method is an Action, Razor (.cshtml) files are your Views. Study the folder structure: <code>Controllers/</code>, <code>Models/</code>, <code>Views/</code>, <code>wwwroot/</code>. Learn how routing maps URL <code>/Habits/Index</code> to <code>HabitsController.Index()</code>.</p>
+                <div class="resources">
+                  <span class="mono">Resources →</span>
+                  <a href="#">Microsoft Learn: MVC Overview</a>
+                  <a href="#">Tim Corey YouTube: ASP.NET MVC</a>
+                </div>
+              </div>
+            </div>
+            <div class="topic-item" data-topic="razor">
+              <div class="topic-head">
+                <span class="topic-name">Razor Syntax Deep Dive</span>
+                <span class="topic-time mono">Day 1</span>
+              </div>
+              <div class="topic-detail">
+                <p>Learn <code>@Model</code>, <code>@foreach</code>, <code>@if</code>, Tag Helpers like <code>asp-for</code>, <code>asp-action</code>, <code>asp-controller</code>. Understand the difference between <code>ViewBag</code>, <code>ViewData</code>, and strongly typed models. Learn <code>@Html.DisplayFor()</code> vs Tag Helpers.</p>
+                <div class="resources">
+                  <span class="mono">Resources →</span>
+                  <a href="#">Razor Syntax Reference (docs.microsoft.com)</a>
+                </div>
+              </div>
+            </div>
+            <div class="topic-item" data-topic="efcore">
+              <div class="topic-head">
+                <span class="topic-name">EF Core — Code First</span>
+                <span class="topic-time mono">Day 2</span>
+              </div>
+              <div class="topic-detail">
+                <p>Code First means you write C# classes → EF generates the database. Learn: <code>DbContext</code>, <code>DbSet&lt;T&gt;</code>, Data Annotations (<code>[Required]</code>, <code>[MaxLength]</code>, <code>[ForeignKey]</code>). Run <code>Add-Migration InitialCreate</code> then <code>Update-Database</code>. Understand the Migrations folder — never delete it.</p>
+                <div class="resources">
+                  <span class="mono">Resources →</span>
+                  <a href="#">EF Core Getting Started (Microsoft Docs)</a>
+                </div>
+              </div>
+            </div>
+            <div class="topic-item" data-topic="linq">
+              <div class="topic-head">
+                <span class="topic-name">LINQ Essentials</span>
+                <span class="topic-time mono">Day 3</span>
+              </div>
+              <div class="topic-detail">
+                <p>You'll use LINQ constantly. Master: <code>.Where(x => x.UserId == userId)</code>, <code>.ToList()</code>, <code>.FirstOrDefault()</code>, <code>.OrderByDescending()</code>, <code>.Any()</code>, <code>.Count()</code>. Also learn <code>.Include()</code> for eager loading related entities — essential for habits + logs.</p>
+                <div class="resources">
+                  <span class="mono">Resources →</span>
+                  <a href="#">LINQ in C# — dotnetcurry.com</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-</div>
+        <div class="topic-block build-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">🔨</span>
+            <span class="block-title mono">THEN BUILD</span>
+            <span class="block-days mono">4 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item" data-topic="db-schema">
+              <div class="topic-head">
+                <span class="topic-name">Design DB Schema</span>
+                <span class="topic-time mono">Day 4</span>
+              </div>
+              <div class="topic-detail">
+                <p>Create three models: <code>ApplicationUser</code> (extends IdentityUser), <code>Habit</code> (Id, Name, UserId, CreatedAt, Color, IsActive), <code>HabitLog</code> (Id, HabitId, LogDate, IsCompleted). Set up relationships: User → many Habits, Habit → many HabitLogs. Add FK with <code>[ForeignKey("HabitId")]</code> and navigation properties.</p>
+                <div class="code-snip mono">
+public class Habit {<br>
+&nbsp; public int Id { get; set; }<br>
+&nbsp; public string Name { get; set; }<br>
+&nbsp; public string UserId { get; set; }<br>
+&nbsp; public DateTime CreatedAt { get; set; }<br>
+&nbsp; public ICollection&lt;HabitLog&gt; Logs { get; set; }<br>
+}
+                </div>
+              </div>
+            </div>
+            <div class="topic-item" data-topic="habits-crud">
+              <div class="topic-head">
+                <span class="topic-name">Full Habit CRUD</span>
+                <span class="topic-time mono">Day 4–5</span>
+              </div>
+              <div class="topic-detail">
+                <p>Build <code>HabitsController</code> with Index (list), Create (GET + POST), Edit (GET + POST), Delete (POST with anti-forgery token). Use <code>IActionResult</code> return types. Redirect with <code>RedirectToAction()</code>. Add model validation with <code>ModelState.IsValid</code>. Use <code>_context.SaveChangesAsync()</code>.</p>
+              </div>
+            </div>
+            <div class="topic-item" data-topic="habit-grid">
+              <div class="topic-head">
+                <span class="topic-name">Daily Check-In Grid</span>
+                <span class="topic-time mono">Day 6</span>
+              </div>
+              <div class="topic-detail">
+                <p>Build the exact grid from your screenshot. Create a ViewModel: <code>HabitGridViewModel</code> with habits list and last 7 dates. In the controller, query <code>HabitLogs</code> for each habit for the date range. Pass to view. In Razor, loop habits as rows, dates as columns, render ✓ if log exists. POST endpoint to toggle a log entry.</p>
+                <div class="code-snip mono">
+// Check if log exists for date<br>
+var log = await _context.HabitLogs<br>
+&nbsp; .FirstOrDefaultAsync(l =&gt;<br>
+&nbsp;&nbsp;&nbsp; l.HabitId == habitId &&<br>
+&nbsp;&nbsp;&nbsp; l.LogDate.Date == date.Date);
+                </div>
+              </div>
+            </div>
+            <div class="topic-item" data-topic="streak">
+              <div class="topic-head">
+                <span class="topic-name">Streak Calculation</span>
+                <span class="topic-time mono">Day 7</span>
+              </div>
+              <div class="topic-detail">
+                <p>Write a service method <code>GetStreakCount(int habitId)</code>. Query logs ordered by date descending. Iterate — count consecutive days where IsCompleted is true, starting from today. Break the loop when a gap is found. Return the count. This is pure C# logic — great practice.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-deliverable w1-del">
+        <div class="del-icon">✅</div>
+        <div class="del-content">
+          <div class="del-label mono">WEEK 1 DELIVERABLE</div>
+          <p>Working habit app with grid view (matching your screenshot), streak counts, SQL Server DB with proper schema, full CRUD. No login yet — all habits are open.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEK 2 -->
+    <section class="week-section" id="week2" data-week="2">
+      <div class="week-marker">
+        <div class="week-num-big">02</div>
+        <div class="week-info">
+          <div class="week-tag w2-tag mono">WEEK TWO · DAYS 8–14</div>
+          <h2 class="week-heading">Authentication<br><span>Identity + Google Login</span></h2>
+          <p class="week-summary">Transform your open app into a multi-user system. Each person gets their own private habit data. Learn the most important skill in web dev — auth.</p>
+        </div>
+      </div>
+
+      <div class="topics-grid">
+        <div class="topic-block learn-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">📘</span>
+            <span class="block-title mono">LEARN FIRST</span>
+            <span class="block-days mono">3 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">ASP.NET Identity System</span>
+                <span class="topic-time mono">Day 8</span>
+              </div>
+              <div class="topic-detail">
+                <p>Identity is a complete auth system. Learn: scaffold Identity pages (<code>dotnet aspnet-codegenerator identity</code>), <code>IdentityDbContext</code>, <code>UserManager&lt;T&gt;</code>, <code>SignInManager&lt;T&gt;</code>. Understand the tables it creates: <code>AspNetUsers</code>, <code>AspNetRoles</code>, <code>AspNetUserClaims</code>. Learn <code>[Authorize]</code> attribute and how to get current user ID with <code>User.FindFirstValue(ClaimTypes.NameIdentifier)</code>.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">OAuth 2.0 — The Concept</span>
+                <span class="topic-time mono">Day 9</span>
+              </div>
+              <div class="topic-detail">
+                <p>OAuth 2.0 is an authorization framework. Flow: your app → redirects user to Google → user grants permission → Google sends back a code → your app exchanges code for access token + refresh token. Key concepts: Client ID, Client Secret, Redirect URI, Scopes. Watch "OAuth 2.0 explained in 5 minutes" on YouTube first, then read the ASP.NET docs.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Google Cloud Console Setup</span>
+                <span class="topic-time mono">Day 9</span>
+              </div>
+              <div class="topic-detail">
+                <p>Go to console.cloud.google.com → New Project → APIs & Services → Credentials → Create OAuth 2.0 Client ID. Set Application Type to "Web Application". Add Authorized Redirect URIs: <code>https://localhost:7xxx/signin-google</code>. Copy Client ID and Client Secret. Store them in <code>appsettings.json</code> or better — User Secrets (<code>dotnet user-secrets set</code>) to avoid committing secrets to Git.</p>
+                <div class="code-snip mono">
+// Program.cs<br>
+builder.Services.AddAuthentication()<br>
+&nbsp; .AddGoogle(opts =&gt; {<br>
+&nbsp;&nbsp;&nbsp; opts.ClientId = config["Google:ClientId"];<br>
+&nbsp;&nbsp;&nbsp; opts.ClientSecret = config["Google:Secret"];<br>
+&nbsp; });
+                </div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Claims & User Identity</span>
+                <span class="topic-time mono">Day 10</span>
+              </div>
+              <div class="topic-detail">
+                <p>A Claim is a key-value pair about the user. After login, you get claims like name, email, picture URL. Learn <code>ClaimsPrincipal</code>, <code>HttpContext.User</code>. In controllers, always filter data by: <code>var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);</code> then <code>_context.Habits.Where(h => h.UserId == userId)</code>. This is the foundation of multi-user security.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-block build-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">🔨</span>
+            <span class="block-title mono">THEN BUILD</span>
+            <span class="block-days mono">4 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Scaffold & Wire Identity</span>
+                <span class="topic-time mono">Day 10–11</span>
+              </div>
+              <div class="topic-detail">
+                <p>Run the Identity scaffolder. Update <code>ApplicationDbContext</code> to extend <code>IdentityDbContext&lt;ApplicationUser&gt;</code>. Add new migration. Register services in <code>Program.cs</code>: <code>AddDefaultIdentity</code>, <code>AddEntityFrameworkStores</code>. Add <code>app.UseAuthentication()</code> before <code>app.UseAuthorization()</code> — order matters! Update <code>_Layout.cshtml</code> to show login/logout in navbar.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Add Google Login Button</span>
+                <span class="topic-time mono">Day 11</span>
+              </div>
+              <div class="topic-detail">
+                <p>In the Login.cshtml (scaffolded), external providers appear automatically as buttons if configured correctly. Style the Google button with proper branding. Test the full flow: click Google → Google consent screen → redirect back → user is created in <code>AspNetUsers</code>. Check the DB — you should see the new user row with Google's external ID stored in <code>AspNetUserLogins</code>.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Secure All Controllers</span>
+                <span class="topic-time mono">Day 12</span>
+              </div>
+              <div class="topic-detail">
+                <p>Add <code>[Authorize]</code> to <code>HabitsController</code>. Update every query to filter by <code>UserId</code>. On Create, set <code>habit.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)</code>. On Edit/Delete, always verify the habit belongs to the current user before modifying — otherwise any logged-in user can delete another's data. This is called an IDOR vulnerability — prevent it from day 1.</p>
+                <div class="code-snip mono">
+// Always verify ownership!<br>
+var habit = await _context.Habits<br>
+&nbsp; .FirstOrDefaultAsync(h =&gt;<br>
+&nbsp;&nbsp;&nbsp; h.Id == id && h.UserId == userId);<br>
+if (habit == null) return Forbid();
+                </div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">User Profile Display</span>
+                <span class="topic-time mono">Day 13–14</span>
+              </div>
+              <div class="topic-detail">
+                <p>Show Google profile picture and name in the navbar. Get user info from claims: <code>User.FindFirstValue("picture")</code> for Google avatar, <code>User.FindFirstValue(ClaimTypes.Name)</code> for name. If picture claim isn't available, fetch from <code>UserManager.GetUserAsync(User)</code>. Store profile picture URL in your <code>ApplicationUser</code> model.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-deliverable w2-del">
+        <div class="del-icon">✅</div>
+        <div class="del-content">
+          <div class="del-label mono">WEEK 2 DELIVERABLE</div>
+          <p>Multi-user app with Google login working. Each user sees only their habits. Navbar shows profile pic and name. All routes are protected. IDOR security in place.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEK 3 -->
+    <section class="week-section" id="week3" data-week="3">
+      <div class="week-marker">
+        <div class="week-num-big">03</div>
+        <div class="week-info">
+          <div class="week-tag w3-tag mono">WEEK THREE · DAYS 15–21</div>
+          <h2 class="week-heading">Google Fit<br><span>Calories + Distance Goals</span></h2>
+          <p class="week-summary">The hardest week. Integrate a real fitness API, handle OAuth token storage, parse complex JSON, and surface real-time health data in your app.</p>
+        </div>
+      </div>
+
+      <div class="topics-grid">
+        <div class="topic-block learn-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">📘</span>
+            <span class="block-title mono">LEARN FIRST</span>
+            <span class="block-days mono">3 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Google Fit REST API Overview</span>
+                <span class="topic-time mono">Day 15</span>
+              </div>
+              <div class="topic-detail">
+                <p>Read the Google Fit REST API docs. Understand the concept of data sources and data points. Key endpoints: <code>users.dataset.aggregate</code> is what you'll use most. It accepts a JSON body with <code>startTimeMillis</code>, <code>endTimeMillis</code>, and <code>aggregateBy</code> (dataTypeName). Use Postman to test before writing code — authenticate with your token and hit the endpoint manually first.</p>
+                <div class="code-snip mono">
+// Aggregation request body<br>
+{<br>
+&nbsp; "aggregateBy": [{<br>
+&nbsp;&nbsp;&nbsp; "dataTypeName":<br>
+&nbsp;&nbsp;&nbsp; "com.google.calories.expended"<br>
+&nbsp; }],<br>
+&nbsp; "startTimeMillis": ...,<br>
+&nbsp; "endTimeMillis": ...<br>
+}
+                </div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">OAuth Scopes for Fitness</span>
+                <span class="topic-time mono">Day 15</span>
+              </div>
+              <div class="topic-detail">
+                <p>Add fitness scopes when configuring Google auth. You need: <code>https://www.googleapis.com/auth/fitness.activity.read</code> for calories and steps, <code>https://www.googleapis.com/auth/fitness.location.read</code> for distance. In <code>Program.cs</code>, add <code>opts.Scope.Add("...")</code>. Also set <code>opts.SaveTokens = true</code> — this stores access and refresh tokens in the auth cookie so you can retrieve them later.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Storing OAuth Tokens in DB</span>
+                <span class="topic-time mono">Day 16</span>
+              </div>
+              <div class="topic-detail">
+                <p>Tokens from <code>SaveTokens = true</code> are in the cookie — not persistent. For server-side calls, store tokens in your DB. Use the <code>ITokenStore</code> pattern or save to your <code>ApplicationUser</code> table. Add columns: <code>GoogleAccessToken</code>, <code>GoogleRefreshToken</code>, <code>TokenExpiry</code>. In <code>OnCreatingTicket</code> callback, extract and store them. Refresh tokens don't expire unless revoked — use them to get new access tokens silently.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">HttpClient in C#</span>
+                <span class="topic-time mono">Day 16</span>
+              </div>
+              <div class="topic-detail">
+                <p>Learn to make HTTP requests from your server. Always use <code>IHttpClientFactory</code> — inject it in the service constructor. Create named clients. Use <code>client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken)</code>. Use <code>PostAsJsonAsync()</code>, read response with <code>response.Content.ReadAsStringAsync()</code>, then deserialize with <code>JsonSerializer.Deserialize&lt;T&gt;()</code>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-block build-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">🔨</span>
+            <span class="block-title mono">THEN BUILD</span>
+            <span class="block-days mono">4 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">GoogleFitService Class</span>
+                <span class="topic-time mono">Day 17–18</span>
+              </div>
+              <div class="topic-detail">
+                <p>Create <code>Services/GoogleFitService.cs</code>. Inject <code>IHttpClientFactory</code> and <code>ApplicationDbContext</code>. Write <code>GetTodayCaloriesAsync(string userId)</code> and <code>GetTodayDistanceKmAsync(string userId)</code>. Fetch stored token, make POST request to Fit API, parse the nested JSON response. The response has <code>bucket → dataset → point → value</code> structure — use <code>JsonDocument</code> to navigate it.</p>
+                <div class="code-snip mono">
+// Fit API response structure<br>
+bucket[0].dataset[0].point[0]<br>
+&nbsp; .value[0].fpVal // calories as float<br>
+<br>
+// Distance in meters, convert:<br>
+var km = meters / 1000.0;
+                </div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Token Refresh Logic</span>
+                <span class="topic-time mono">Day 18</span>
+              </div>
+              <div class="topic-detail">
+                <p>Access tokens expire after 1 hour. Before calling the Fit API, check <code>TokenExpiry &lt; DateTime.UtcNow</code>. If expired, use the refresh token: POST to <code>https://oauth2.googleapis.com/token</code> with <code>grant_type=refresh_token</code>, your refresh token, client ID, and secret. Parse the response for a new access token and update the DB. Wrap this in a helper method called before every API call.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Fitness Goals System</span>
+                <span class="topic-time mono">Day 19</span>
+              </div>
+              <div class="topic-detail">
+                <p>Add a <code>FitnessGoal</code> model: <code>UserId</code>, <code>DailyCalorieTarget</code>, <code>DailyDistanceTargetKm</code>. Create a <code>GoalsController</code> with a settings page where users set their targets. On the dashboard, compare actual vs target and calculate percentage. Show a progress bar: <code>actualCalories / targetCalories * 100</code>. Color it green if &gt; 80%, yellow if 50–80%, red if &lt; 50%.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Error Handling for API Failures</span>
+                <span class="topic-time mono">Day 20–21</span>
+              </div>
+              <div class="topic-detail">
+                <p>The Fit API WILL fail — no phone data, revoked permissions, network errors. Wrap all Fit calls in try-catch. Return a <code>FitResult</code> object with a success flag and error message. On the UI, show a friendly message: "Connect your Google Fit app to see data" instead of crashing. Log errors with <code>ILogger&lt;T&gt;</code> for debugging. Add a "Reconnect Google Fit" button that re-triggers the OAuth flow with fitness scopes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-deliverable w3-del">
+        <div class="del-icon">✅</div>
+        <div class="del-content">
+          <div class="del-label mono">WEEK 3 DELIVERABLE</div>
+          <p>Dashboard shows real-time calories burned and km walked from Google Fit. User can set daily goals. Progress bars show completion. Token refresh works silently. Graceful error handling.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEK 4 -->
+    <section class="week-section" id="week4" data-week="4">
+      <div class="week-marker">
+        <div class="week-num-big">04</div>
+        <div class="week-info">
+          <div class="week-tag w4-tag mono">WEEK FOUR · DAYS 22–30</div>
+          <h2 class="week-heading">Dashboard<br><span>Charts, Polish & Deploy</span></h2>
+          <p class="week-summary">Bring it all together. Build the full dashboard, add visualizations, optimize performance, and optionally deploy to Azure or Railway.</p>
+        </div>
+      </div>
+
+      <div class="topics-grid">
+        <div class="topic-block learn-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">📘</span>
+            <span class="block-title mono">LEARN FIRST</span>
+            <span class="block-days mono">2 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Chart.js Integration</span>
+                <span class="topic-time mono">Day 22</span>
+              </div>
+              <div class="topic-detail">
+                <p>Chart.js is a JS library — include via CDN. The key challenge is passing C# data to JS. In Razor: <code>var labelsJson = Json.Serialize(labels);</code> then in a script tag: <code>const labels = @Html.Raw(labelsJson);</code>. Build bar charts for weekly habit completion, line charts for streak history, doughnut charts for goal achievement. Always put chart config in <code>wwwroot/js/dashboard.js</code>.</p>
+                <div class="code-snip mono">
+// C# → JS data bridge in Razor<br>
+@{ var data = Json.Serialize(model.WeeklyData); }<br>
+&lt;script&gt;<br>
+&nbsp; const chartData = @Html.Raw(data);<br>
+&lt;/script&gt;
+                </div>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">ViewModels & Partial Views</span>
+                <span class="topic-time mono">Day 23</span>
+              </div>
+              <div class="topic-detail">
+                <p>Your dashboard aggregates data from habits, logs, and Fit API. Create a <code>DashboardViewModel</code> that holds everything. Build Partial Views for reusable components: <code>_HabitGrid.cshtml</code>, <code>_FitnessCard.cshtml</code>, <code>_StreakBadge.cshtml</code>. Use <code>@await Html.PartialAsync("_HabitGrid", model)</code>. This keeps your main view clean and your components reusable.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topic-block build-block" data-animate>
+          <div class="block-header">
+            <span class="block-icon">🔨</span>
+            <span class="block-title mono">THEN BUILD</span>
+            <span class="block-days mono">7 days</span>
+          </div>
+          <div class="topic-list">
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Main Dashboard Layout</span>
+                <span class="topic-time mono">Day 23–24</span>
+              </div>
+              <div class="topic-detail">
+                <p>Design dashboard with Bootstrap 5 grid. Layout: top row = summary stats (streak, habits done today, calories, km). Middle = habit check-in grid (the table from your screenshot). Bottom = charts row. Use Bootstrap cards for each section. Load Fit data asynchronously with a small loading spinner — don't block the whole page if API is slow.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Weekly Completion Charts</span>
+                <span class="topic-time mono">Day 24–25</span>
+              </div>
+              <div class="topic-detail">
+                <p>For each habit, calculate completion rate for last 7 days. Chart.js bar chart: X axis = habit names, Y axis = % completion. Add a line chart showing daily total habits completed over the last 30 days. Use the color from your Habit model for bar colors — personalized charts feel premium. Add tooltips showing exact completion counts.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Streak Leaderboard & Badges</span>
+                <span class="topic-time mono">Day 25–26</span>
+              </div>
+              <div class="topic-detail">
+                <p>Show habits ordered by current streak. Award emoji badges: 🔥 3+ days, ⚡ 7+ days, 💎 30+ days. These are calculated on the server and passed to the view. Also show "best ever streak" per habit — query all logs and find the longest consecutive run. Store this in a computed column or recalculate on demand (fine for now).</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Mobile Responsive + Final Polish</span>
+                <span class="topic-time mono">Day 27–28</span>
+              </div>
+              <div class="topic-detail">
+                <p>Test on mobile — Bootstrap handles most of it, but the habit grid needs horizontal scroll on small screens: <code>overflow-x: auto</code> on the table container. Add a dark/light mode toggle using <code>localStorage</code> and CSS variables. Add page transitions with a simple fade using Bootstrap's <code>fade</code> class. Clean up all unused code, fix spelling, ensure consistent button styles.</p>
+              </div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-head">
+                <span class="topic-name">Optional: Deploy to Azure</span>
+                <span class="topic-time mono">Day 29–30</span>
+              </div>
+              <div class="topic-detail">
+                <p>Deploy to Azure App Service (free tier) + Azure SQL Database. Use the Visual Studio "Publish" wizard or GitHub Actions. Update Google OAuth redirect URIs to your production URL. Move secrets to Azure App Settings (Environment Variables) — never in code. Add <code>ASPNETCORE_ENVIRONMENT=Production</code>. Alternatively, Railway.app is simpler for beginners.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-deliverable w4-del">
+        <div class="del-icon">✅</div>
+        <div class="del-content">
+          <div class="del-label mono">WEEK 4 DELIVERABLE</div>
+          <p>Complete, polished app — habit grid, streak badges, weekly charts, fitness goals, mobile responsive. Ready to add to your portfolio and GitHub. Optionally live on Azure.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="section resources-section" data-animate>
+      <div class="section-label mono">// LEARNING RESOURCES</div>
+      <div class="resources-grid">
+        <div class="res-card">
+          <div class="res-emoji">📺</div>
+          <div class="res-name">Tim Corey — YouTube</div>
+          <div class="res-desc mono">Best ASP.NET MVC + C# tutorials for beginners. Free. Watch his MVC series first.</div>
+        </div>
+        <div class="res-card">
+          <div class="res-emoji">📚</div>
+          <div class="res-name">Microsoft Learn</div>
+          <div class="res-desc mono">learn.microsoft.com — official, free, has hands-on sandboxes for EF Core, Identity.</div>
+        </div>
+        <div class="res-card">
+          <div class="res-emoji">🛠️</div>
+          <div class="res-name">Postman</div>
+          <div class="res-desc mono">Test all API calls (Google Fit) before coding. Saves hours of debugging.</div>
+        </div>
+        <div class="res-card">
+          <div class="res-emoji">🐙</div>
+          <div class="res-name">GitHub</div>
+          <div class="res-desc mono">Commit every single day. Even broken code. It shows your progress and protects your work.</div>
+        </div>
+        <div class="res-card">
+          <div class="res-emoji">📊</div>
+          <div class="res-name">Chart.js Docs</div>
+          <div class="res-desc mono">chartjs.org — incredible docs with live examples. Copy-paste friendly for beginners.</div>
+        </div>
+        <div class="res-card">
+          <div class="res-emoji">🔍</div>
+          <div class="res-name">Stack Overflow</div>
+          <div class="res-desc mono">Paste your exact error message. 90% of beginner errors are already answered here.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIPS -->
+    <section class="section tips-section" data-animate>
+      <div class="section-label mono">// BEGINNER RULES TO LIVE BY</div>
+      <div class="tips-list">
+        <div class="tip-item">
+          <span class="tip-num mono">01</span>
+          <div class="tip-content">
+            <strong>Learn → Code Same Day.</strong> Never watch more than 1 hour of tutorials without opening Visual Studio and coding what you just learned. Passive watching = forgetting.
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-num mono">02</span>
+          <div class="tip-content">
+            <strong>Git from Day 1.</strong> <code>git init</code> before your first line. Commit every night. You WILL break your app — Git is your undo button.
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-num mono">03</span>
+          <div class="tip-content">
+            <strong>Never store secrets in code.</strong> Use <code>dotnet user-secrets</code> for development. Never commit <code>appsettings.json</code> with real credentials to GitHub.
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-num mono">04</span>
+          <div class="tip-content">
+            <strong>Break problems down.</strong> If something feels too big, write in English what it needs to do, step by step. Then code each step. A working ugly solution beats a perfect one that doesn't exist.
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-num mono">05</span>
+          <div class="tip-content">
+            <strong>Google Fit is hard — give it time.</strong> Week 3 will be frustrating. Use Postman to test API calls first. Read the error messages carefully. Token issues account for 80% of Fit API problems.
+          </div>
+        </div>
+        <div class="tip-item">
+          <span class="tip-num mono">06</span>
+          <div class="tip-content">
+            <strong>Get it working, then make it pretty.</strong> Week 4 is for polish. Weeks 1–3 are about functional code. A working feature beats a beautiful broken one every time.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-name mono">PRASANN GAIKAWAD</div>
+      <div class="footer-sub mono">30-Day ASP.NET MVC Habit Tracker Roadmap</div>
+      <div class="footer-links">
+        <a href="https://github.com/Prasannthedeveloper" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/prasann-gaikawad-6910b1317/" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <div class="footer-quote mono">"The best time to start was yesterday. The second best time is now."</div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
