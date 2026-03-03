@@ -4,580 +4,1448 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habit Forge • Project Roadmap by Prasann</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #faf9f6;
+            --bg-warm: #f5f3ee;
+            --fg: #1a1a1a;
+            --muted: #6b6b6b;
+            --accent: #0d9488;
+            --accent-light: #5eead4;
+            --accent-dark: #0f766e;
+            --card: #ffffff;
+            --border: #e5e2dc;
+            --highlight: #fef3c7;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: linear-gradient(145deg, #f8fafc 0%, #eef2f6 100%);
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.5;
-            color: #0f172a;
-            padding: 2rem 1.5rem;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* smooth container */
-        .roadmap-container {
-            max-width: 1300px;
+        h1, h2, h3, h4, h5 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Background Pattern */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(13, 148, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(254, 243, 199, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(13, 148, 136, 0.02) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .dot-grid {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, #d4d0c8 1px, transparent 1px);
+            background-size: 32px 32px;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Main Container */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 3.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.8);
-            padding: 2.5rem 2.2rem;
-            border: 1px solid rgba(255,255,255,0.7);
+            padding: 2rem 1.5rem 4rem;
         }
 
-        /* header section with branding */
-        .forge-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+        /* Header */
+        .header {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        .brand-badge {
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 3rem;
-            border-bottom: 2px dashed #94a3b8;
-            padding-bottom: 2rem;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
         }
 
-        .title-section h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
             letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #1e293b, #3b3b7a, #1e3c5c);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #3d3d3d 50%, var(--accent-dark) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            line-height: 1.2;
         }
 
-        .title-section .byline {
-            font-size: 1.3rem;
-            font-weight: 400;
-            color: #334155;
+        .author-section {
             display: flex;
-            align-items: center;
-            gap: 0.75rem;
             flex-wrap: wrap;
-            margin-top: 0.3rem;
-        }
-
-        .byline .name-highlight {
-            background: #1e293b;
-            color: white;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .company-badge {
-            background: #0b1120;
-            color: #f1f5f9;
-            padding: 0.5rem 1.6rem;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border: 1px solid #536878;
-            box-shadow: 0 6px 0 #020617;
-            transform: translateY(-2px);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .social-card {
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
             background: white;
-            padding: 0.7rem 1.3rem;
-            border-radius: 60px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            box-shadow: 0 6px 14px rgba(0,27,55,0.15);
-            transition: all 0.2s ease;
-            border: 1px solid #cbd5e1;
-            text-decoration: none;
-            color: #0f172a;
-        }
-
-        .social-card:hover {
-            transform: scale(1.04);
-            background: #0f172a;
+            justify-content: center;
             color: white;
-            border-color: #38bdf8;
+            font-weight: 700;
+            font-size: 1.25rem;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
-        .social-card i { font-size: 1.3rem; margin-right: 4px; }
+        .author-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
 
-        /* week cards */
-        .week-grid {
+        .author-info p {
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--bg-warm);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--fg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+        }
+
+        .social-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .duration-badge {
+            margin-left: auto;
+            background: var(--highlight);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.875rem;
             display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-            margin-top: 2rem;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent-light), var(--border));
+            border-radius: 3px;
+        }
+
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Week Sections */
+        .week-section {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+
+        .week-section.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (min-width: 768px) {
+            .week-section {
+                padding-left: 0;
+                width: 45%;
+            }
+
+            .week-section:nth-child(odd) {
+                margin-left: 0;
+                text-align: right;
+            }
+
+            .week-section:nth-child(even) {
+                margin-left: 55%;
+            }
+        }
+
+        .week-node {
+            position: absolute;
+            left: 12px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .week-section:hover .week-node {
+            background: var(--accent);
+            transform: scale(1.3);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.2);
+        }
+
+        @media (min-width: 768px) {
+            .week-node {
+                left: auto;
+                right: -32px;
+            }
+
+            .week-section:nth-child(even) .week-node {
+                right: auto;
+                left: -32px;
+            }
         }
 
         .week-card {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(4px);
-            border-radius: 2.5rem;
-            padding: 1.8rem 2rem;
-            border: 1px solid rgba(255,255,255,0.9);
-            box-shadow: 0 10px 25px -10px #1e293b40, 0 0 0 1px #ffffff inset;
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s ease;
+        }
+
+        .week-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 768px) {
+            .week-section:nth-child(odd) .week-header {
+                justify-content: flex-end;
+            }
+        }
+
+        .week-number {
+            background: var(--accent);
+            color: white;
+            padding: 0.35rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 0.5px;
         }
 
         .week-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(145deg, #13294b, #234e7c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            border-left: 10px solid #2d5f9e;
-            padding-left: 1.2rem;
+            color: var(--fg);
         }
 
-        .week-title span {
-            background: #1f3a5f;
-            color: white;
-            font-size: 1.1rem;
-            padding: 0.2rem 1.1rem;
-            border-radius: 40px;
+        .week-subtitle {
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+
+        /* Day Items */
+        .day-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .day-item {
+            background: var(--bg-warm);
+            border-radius: 16px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .day-item:hover {
+            background: white;
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        @media (min-width: 768px) {
+            .week-section:nth-child(odd) .day-item:hover {
+                transform: translateX(-4px);
+            }
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .day-icon {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .day-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .day-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .day-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .week-section:nth-child(odd) .day-tags {
+                justify-content: flex-end;
+            }
+        }
+
+        .tag {
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
             letter-spacing: 0.3px;
         }
 
-        .days-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        .tag-learn {
+            background: #dbeafe;
+            color: #1e40af;
         }
 
-        .day-box {
-            background: #f1f5f9e0;
-            padding: 1.3rem 1.2rem;
-            border-radius: 1.8rem;
-            border: 1px solid white;
-            box-shadow: 0 6px 0 #b0c4da;
-            transition: 0.1s ease;
+        .tag-practice {
+            background: #fce7f3;
+            color: #9d174d;
         }
 
-        .day-box h3 {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 2px dotted #8ba0bb;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.7rem;
+        .tag-implement {
+            background: #d1fae5;
+            color: #065f46;
         }
 
-        .learn-tag {
-            background: #b3d0f2;
-            color: #022c49;
-            font-weight: 600;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-            display: inline-block;
-            margin: 0.3rem 0.2rem;
-        }
-
-        .practice-tag {
-            background: #cbd5e1;
-            color: #0b1e33;
-            font-weight: 600;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-            display: inline-block;
-            margin: 0.3rem 0.2rem;
-        }
-
-        .implement-tag {
-            background: #1b3b58;
-            color: white;
-            font-weight: 600;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-            display: inline-block;
-            margin: 0.3rem 0.2rem;
-        }
-
-        .bullet-list {
+        .day-tasks {
             list-style: none;
-            margin-top: 0.7rem;
-        }
-
-        .bullet-list li {
-            font-size: 0.9rem;
-            margin-bottom: 0.35rem;
             display: flex;
-            align-items: baseline;
-            gap: 6px;
+            flex-direction: column;
+            gap: 0.35rem;
         }
 
-        .bullet-list li::before {
-            content: "▹";
-            color: #2563eb;
-            font-weight: bold;
+        @media (min-width: 768px) {
+            .week-section:nth-child(odd) .day-tasks {
+                text-align: left;
+            }
         }
 
-        .feature-highlight {
-            background: #ffffffcc;
-            border-radius: 1.8rem;
-            padding: 1.5rem 2rem;
-            margin-top: 1.8rem;
-            border-left: 8px solid #2563eb;
+        .day-tasks li {
+            font-size: 0.875rem;
+            color: var(--muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
         }
 
-        .metric-badge {
-            display: inline-flex;
-            background: #163a5c;
-            color: white;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-weight: 600;
-            gap: 5px;
+        .day-tasks li::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 768px) {
+            .week-section:nth-child(odd) .day-tasks li {
+                flex-direction: row-reverse;
+            }
+
+            .week-section:nth-child(odd) .day-tasks li::before {
+                order: 1;
+            }
+        }
+
+        /* Metrics Section */
+        .metrics-section {
+            margin-top: 4rem;
+            background: white;
+            border-radius: 32px;
+            padding: 3rem;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .metrics-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: flex;
             align-items: center;
+            gap: 0.75rem;
         }
 
-        .footer-note {
-            margin-top: 3rem;
+        .section-title svg {
+            color: var(--accent);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .metric-item {
+            background: var(--bg-warm);
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .metric-item:hover {
+            background: white;
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        .metric-check {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .metric-check svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .metric-text {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        /* Resources Section */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .resource-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .resource-card.dark {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+        }
+
+        .resource-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .resource-list li {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .resource-list.light li {
+            color: var(--muted);
+        }
+
+        .resource-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Beyond Section */
+        .beyond-section {
+            margin-top: 4rem;
+            background: linear-gradient(135deg, var(--highlight) 0%, #fef9c3 100%);
+            border-radius: 32px;
+            padding: 2.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .beyond-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .beyond-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .beyond-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .beyond-tag {
+            background: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .beyond-tag:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            background: #0f172a;
-            color: white;
-            padding: 1.6rem 2rem;
-            border-radius: 3rem;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+            animation-delay: 0.5s;
         }
 
-        .footer-note a {
-            color: #b9e0ff;
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px dotted;
-        }
-
-        .github-icon, .linkedin-icon {
-            width: 22px;
-            height: 22px;
-            background: currentColor;
-            display: inline-block;
-            mask-size: cover;
-        }
-
-        /* tiny icons manual (using text/emoji fallback) */
-        .icon {
-            font-size: 1.2rem;
-        }
-
-        /* responsive */
-        @media (max-width: 700px) {
-            .forge-header { flex-direction: column; align-items: start; gap: 1rem; }
-            .title-section h1 { font-size: 2.8rem; }
-        }
-
-        /* extra pillars */
-        .pillars {
+        .footer-brand {
             display: flex;
-            gap: 1.2rem;
-            margin: 2rem 0 0.5rem;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
-        .pillar {
-            background: #d5e2f0;
-            border-radius: 40px;
-            padding: 0.5rem 1.2rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #031d33;
+        .footer-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
-        .success-metrics {
-            background: #dfeaf5;
-            border-radius: 2rem;
-            padding: 1.5rem;
-            margin-top: 2rem;
+        .footer-link:hover {
+            color: var(--accent);
         }
 
-        .checklist {
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 0.6rem;
-            margin-top: 1rem;
+        .footer-tagline {
+            width: 100%;
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border);
+            color: var(--muted);
+            font-size: 0.875rem;
         }
 
-        @media (max-width: 600px) {
-            .checklist { grid-template-columns: 1fr; }
+        /* Animations */
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Floating decoration */
+        .floating-shape {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(13, 148, 136, 0.08) 0%, transparent 70%);
+            top: 10%;
+            right: -100px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(254, 243, 199, 0.8) 0%, transparent 70%);
+            bottom: 20%;
+            left: -50px;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(20px, -20px); }
+            50% { transform: translate(-10px, 20px); }
+            75% { transform: translate(15px, 10px); }
         }
     </style>
 </head>
 <body>
-<div class="roadmap-container">
-    <!-- HEADER with Prasann, GitHub, LinkedIn, Prasannova -->
-    <div class="forge-header">
-        <div class="title-section">
-            <h1>⚒️ Habit Forge</h1>
-            <div class="byline">
-                <span class="name-highlight">Prasann</span>
-                <span>·</span>
-                <span>Project roadmap</span>
-                <span>·</span>
-                <span class="company-badge">Prasannova Solutions</span>
+    <div class="bg-pattern"></div>
+    <div class="dot-grid"></div>
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+
+    <div class="main-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="brand-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+                Prasannova Solutions
             </div>
-            <div class="social-links">
-                <a href="https://github.com/Prasannthedeveloper" target="_blank" class="social-card">
-                    <span class="icon">🐙</span> GitHub · Prasannthedeveloper
-                </a>
-                <a href="https://www.linkedin.com/in/prasann-gaikawad-6910b1317/" target="_blank" class="social-card">
-                    <span class="icon">🔗</span> LinkedIn · Prasann Gaikawad
-                </a>
-            </div>
-        </div>
-        <div style="font-size: 1.2rem; background: #fff1c0; padding: 0.6rem 1.5rem; border-radius: 60px;">
-            📅 1-month deep roadmap
-        </div>
+            <h1 class="main-title">Habit Forge</h1>
+            <p style="font-size: 1.25rem; color: var(--muted); max-width: 600px;">A 30-day deep dive into building a production-ready habit tracking application with ASP.NET Core MVC and Google Fit integration.</p>
+            
+           <div class="author-section">
+    <img 
+        src="https://avatars.githubusercontent.com/u/180317593?v=4"
+        alt="Prasann Profile"
+        class="author-avatar"
+    />
+
+    <div class="author-info">
+        <h3>Prasann Gaikawad</h3>
+        <p>.NET Full Stack Developer</p>
     </div>
 
-    <!-- WEEK 1 -->
-    <div class="week-grid">
-        <!-- week 1 card -->
-        <div class="week-card">
-            <div class="week-title">📘 Week 1 <span>Foundation · Database · Dashboard</span></div>
-            <div class="days-row">
-                <div class="day-box">
-                    <h3><span class="icon">📚</span> Day 1–2</h3>
-                    <span class="learn-tag">learn</span> <span class="practice-tag">practice</span> <span class="implement-tag">implement</span>
-                    <ul class="bullet-list">
-                        <li>MVC deep, EF relationships, ViewModels</li>
-                        <li>CRUD with related tables</li>
-                        <li>Design: Users, Habits, HabitLogs, Goals</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">⚡</span> Day 3–4</h3>
-                    <span class="learn-tag">EF advanced</span> <span class="practice-tag">LINQ</span>
-                    <ul class="bullet-list">
-                        <li>Migrations, seed, complex queries</li>
-                        <li>Eager/lazy loading</li>
-                        <li>Repository + dashboard aggregation</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">🎨</span> Day 5–7</h3>
-                    <span class="learn-tag">Bootstrap5</span> <span class="learn-tag">Chart.js</span>
-                    <ul class="bullet-list">
-                        <li>Responsive dashboard, partial views</li>
-                        <li>Calendar habit grid</li>
-                        <li>Progress indicators</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-left: auto;">
+        <a href="https://github.com/Prasannthedeveloper" target="_blank" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+        </a>
 
-        <!-- WEEK 2 -->
-        <div class="week-card">
-            <div class="week-title">🔐 Week 2 <span>Auth · User settings · Habit CRUD</span></div>
-            <div class="days-row">
-                <div class="day-box">
-                    <h3><span class="icon">🔑</span> Day 8–9</h3>
-                    <span class="learn-tag">OAuth2</span> <span class="learn-tag">Google login</span>
-                    <ul class="bullet-list">
-                        <li>ASP.NET Identity + external providers</li>
-                        <li>Store profile, redirect logic</li>
-                        <li>Claims & user management</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">⚙️</span> Day 10–11</h3>
-                    <span class="learn-tag">user settings</span>
-                    <ul class="bullet-list">
-                        <li>User isolation, timezone handling</li>
-                        <li>Habit categories, notification prefs</li>
-                        <li>Theme switching (optional)</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">✏️</span> Day 12–14</h3>
-                    <span class="learn-tag">CRUD</span> <span class="learn-tag">soft delete</span>
-                    <ul class="bullet-list">
-                        <li>Create/edit/delete habits</li>
-                        <li>Habit templates, archiving</li>
-                        <li>Audit & validation</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- WEEK 3 - Google Fit integration -->
-        <div class="week-card">
-            <div class="week-title">🏃 Week 3 <span>Google Fit · Calories · Distance</span></div>
-            <div class="days-row">
-                <div class="day-box">
-                    <h3><span class="icon">📡</span> Day 15–16</h3>
-                    <span class="learn-tag">Fit API</span> <span class="learn-tag">OAuth scopes</span>
-                    <ul class="bullet-list">
-                        <li>REST, data types, sessions</li>
-                        <li>Store refresh tokens</li>
-                        <li>API service layer + token refresh</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">🔥</span> Day 17–18</h3>
-                    <span class="learn-tag">calories</span> <span class="learn-tag">aggregation</span>
-                    <ul class="bullet-list">
-                        <li>Calories burned integration</li>
-                        <li>Daily targets, manual entry</li>
-                        <li>Weekly calories summary</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">👟</span> Day 19–20</h3>
-                    <span class="learn-tag">distance</span> <span class="learn-tag">steps</span>
-                    <ul class="bullet-list">
-                        <li>Step ↔ distance, walking goals</li>
-                        <li>Walking/running habits</li>
-                        <li>Progress tracking, weekly distance</li>
-                    </ul>
-                </div>
-            </div>
-            <div style="margin-top: 1rem; background: #edf4fe; border-radius: 1.5rem; padding: 1rem;">
-                <span class="metric-badge">📅 Day 21: background sync service · scheduled tasks · conflict handling</span>
-            </div>
-        </div>
-
-        <!-- WEEK 4: analytics & polish -->
-        <div class="week-card">
-            <div class="week-title">📊 Week 4 <span>Analytics · Goals · Performance · Launch</span></div>
-            <div class="days-row">
-                <div class="day-box">
-                    <h3><span class="icon">📈</span> Day 22–23</h3>
-                    <span class="learn-tag">streaks</span> <span class="learn-tag">charts</span>
-                    <ul class="bullet-list">
-                        <li>Habit streak calculation</li>
-                        <li>Weekly/monthly reports</li>
-                        <li>Heatmap, trends</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">🏆</span> Day 24–25</h3>
-                    <span class="learn-tag">goals</span> <span class="learn-tag">achievements</span>
-                    <ul class="bullet-list">
-                        <li>Custom goals, streak milestones</li>
-                        <li>Achievement badges</li>
-                        <li>Notifications / congratulatory</li>
-                    </ul>
-                </div>
-                <div class="day-box">
-                    <h3><span class="icon">⚡</span> Day 26–27</h3>
-                    <span class="learn-tag">performance</span> <span class="learn-tag">caching</span>
-                    <ul class="bullet-list">
-                        <li>Database indexing, eager/lazy</li>
-                        <li>Cache dashboard, pagination</li>
-                        <li>Compression & lazy charts</li>
-                    </ul>
-                </div>
-            </div>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.2rem;">
-                <div class="pillar">Day 28–29: unit/integration tests · deploy to Azure/AWS</div>
-                <div class="pillar">Day 30: onboarding · user guide · error handling · polish</div>
-            </div>
-        </div>
+        <a href="https://www.linkedin.com/in/prasann-gaikawad-6910b1317/" target="_blank" class="social-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286z"/>
+            </svg>
+            LinkedIn
+        </a>
     </div>
 
-    <!-- SUCCESS METRICS section (from roadmap) -->
-    <div class="success-metrics">
-        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; display: flex; gap: 10px;">✅ End of month 1 — success checklist</h3>
-        <div class="checklist">
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Google Auth</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Habit grid dashboard</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Full habit CRUD</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Daily logging</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Google Fit calories</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Distance / walking goals</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Streaks & basic analytics</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Responsive design</span>
-            <span style="background:#1e293b; color:white; padding:0.3rem 1rem; border-radius:40px;">Deployed (Azure/AWS)</span>
-        </div>
-    </div>
-
-    <!-- Learning resources & pitfalls (abbreviated) -->
-    <div style="display: flex; gap: 1.2rem; flex-wrap: wrap; margin: 2rem 0 1rem;">
-        <div style="background: #13294b; color: white; padding: 1.5rem; border-radius: 2rem; flex: 2;">
-            <h4 style="font-size: 1.5rem;">📖 key books & courses</h4>
-            <ul style="columns: 2; margin-top: 1rem; list-style: none;">
-                <li>▸ Pro ASP.NET Core MVC (Freeman)</li>
-                <li>▸ EF Core in Action (Smith)</li>
-                <li>▸ Clean Architecture (Martin)</li>
-                <li>▸ MS Learn / Pluralsight</li>
-                <li>▸ Google Fit API tutorials</li>
-            </ul>
-        </div>
-        <div style="background: #f0f3fa; padding: 1.5rem; border-radius: 2rem; flex: 1.5;">
-            <h4 style="font-size: 1.5rem;">⚠️ pitfalls to avoid</h4>
-            <ul style="list-style: none;">
-                <li>• rushing db design</li>
-                <li>• google login browser test</li>
-                <li>• api rate limits</li>
-                <li>• offline sync conflicts</li>
-                <li>• client-side token storage</li>
-                <li>• missing loading states</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- After month 1 : next steps -->
-    <div style="background: #d5e6fb; border-radius: 2rem; padding: 1.5rem; margin: 2rem 0;">
-        <span style="font-weight:800; font-size:1.6rem;">🚀 beyond month 1</span>
-        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem;">
-            <span class="pillar">social features</span>
-            <span class="pillar">habit challenges</span>
-            <span class="pillar">data export</span>
-            <span class="pillar">mobile app (Xamarin / MAUI)</span>
-            <span class="pillar">ML predictions</span>
-            <span class="pillar">other fitness APIs</span>
-            <span class="pillar">premium subscription</span>
-        </div>
-    </div>
-
-    <!-- FOOTER with name, github, linkedin, prasannova -->
-    <div class="footer-note">
-        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
-            <span style="font-weight: 700;">🧑‍💻 Prasann</span>
-            <span>•</span>
-            <a href="https://github.com/Prasannthedeveloper" target="_blank">github.com/Prasannthedeveloper</a>
-            <span>•</span>
-            <a href="https://www.linkedin.com/in/prasann-gaikawad-6910b1317/" target="_blank">linkedin.com/in/prasann-gaikawad</a>
-        </div>
-        <div style="font-weight: 600; background: #2d3f5e; padding: 0.4rem 1.2rem; border-radius: 40px;">
-            ⚒️ Prasannova Solutions
-        </div>
-    </div>
-
-    <!-- small tagline -->
-    <div style="text-align: center; margin-top: 1.5rem; color: #3f546d;">
-        <span>Habit Forge — build your routine, one commit at a time. 🏋️‍♂️</span>
+    <div class="duration-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        30-Day Roadmap
     </div>
 </div>
-<!-- end container -->
+        </header>
+
+        <!-- Timeline -->
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <!-- Week 1 -->
+            <div class="week-section" data-week="1">
+                <div class="week-node"></div>
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">WEEK 1</span>
+                        <div>
+                            <h2 class="week-title">Foundation</h2>
+                            <span class="week-subtitle">Database, Dashboard, Core Architecture</span>
+                        </div>
+                    </div>
+                    <div class="day-list">
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 1-2: Core Concepts</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Learn</span>
+                                <span class="tag tag-practice">Practice</span>
+                                <span class="tag tag-implement">Implement</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>MVC pattern deep dive, EF relationships</li>
+                                <li>ViewModels and ViewComponents</li>
+                                <li>CRUD with related tables</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 3-4: Database Mastery</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">EF Advanced</span>
+                                <span class="tag tag-practice">LINQ</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Migrations, seeding, complex queries</li>
+                                <li>Eager/lazy loading patterns</li>
+                                <li>Repository pattern implementation</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 5-7: Dashboard UI</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Bootstrap 5</span>
+                                <span class="tag tag-learn">Chart.js</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Responsive dashboard layout</li>
+                                <li>Calendar habit grid</li>
+                                <li>Progress indicators and widgets</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Week 2 -->
+            <div class="week-section" data-week="2">
+                <div class="week-node"></div>
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">WEEK 2</span>
+                        <div>
+                            <h2 class="week-title">Authentication</h2>
+                            <span class="week-subtitle">User Settings, Habit CRUD</span>
+                        </div>
+                    </div>
+                    <div class="day-list">
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 8-9: OAuth Integration</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">OAuth2</span>
+                                <span class="tag tag-learn">Google Login</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>ASP.NET Identity setup</li>
+                                <li>External provider configuration</li>
+                                <li>Claims and user management</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 10-11: User Settings</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Settings</span>
+                                <span class="tag tag-practice">Timezone</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>User isolation and timezone handling</li>
+                                <li>Habit categories and preferences</li>
+                                <li>Theme switching implementation</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 12-14: Habit CRUD</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">CRUD</span>
+                                <span class="tag tag-practice">Soft Delete</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Create/edit/delete operations</li>
+                                <li>Habit templates and archiving</li>
+                                <li>Audit logging and validation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Week 3 -->
+            <div class="week-section" data-week="3">
+                <div class="week-node"></div>
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">WEEK 3</span>
+                        <div>
+                            <h2 class="week-title">Google Fit</h2>
+                            <span class="week-subtitle">Calories, Distance, Activity Tracking</span>
+                        </div>
+                    </div>
+                    <div class="day-list">
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 15-16: Fit API Setup</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Fit API</span>
+                                <span class="tag tag-learn">OAuth Scopes</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>REST API integration patterns</li>
+                                <li>Token storage and refresh</li>
+                                <li>API service layer architecture</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                        <path d="M2 17l10 5 10-5"></path>
+                                        <path d="M2 12l10 5 10-5"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 17-18: Calorie Tracking</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Calories</span>
+                                <span class="tag tag-practice">Aggregation</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Calories burned integration</li>
+                                <li>Daily targets and manual entry</li>
+                                <li>Weekly summary visualization</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 19-21: Activity Data</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Distance</span>
+                                <span class="tag tag-practice">Steps</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Step-to-distance calculations</li>
+                                <li>Walking/running habit tracking</li>
+                                <li>Background sync service</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Week 4 -->
+            <div class="week-section" data-week="4">
+                <div class="week-node"></div>
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">WEEK 4</span>
+                        <div>
+                            <h2 class="week-title">Polish & Launch</h2>
+                            <span class="week-subtitle">Analytics, Goals, Performance, Deploy</span>
+                        </div>
+                    </div>
+                    <div class="day-list">
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 22-23: Analytics</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Streaks</span>
+                                <span class="tag tag-learn">Charts</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Habit streak calculation</li>
+                                <li>Weekly/monthly reports</li>
+                                <li>Heatmap and trend analysis</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="8" r="7"></circle>
+                                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 24-25: Goals & Achievements</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-learn">Goals</span>
+                                <span class="tag tag-practice">Badges</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Custom goals and milestones</li>
+                                <li>Achievement badge system</li>
+                                <li>Congratulatory notifications</li>
+                            </ul>
+                        </div>
+                        <div class="day-item">
+                            <div class="day-header">
+                                <div class="day-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    </svg>
+                                </div>
+                                <span class="day-title">Day 26-30: Performance & Deploy</span>
+                            </div>
+                            <div class="day-tags">
+                                <span class="tag tag-implement">Performance</span>
+                                <span class="tag tag-implement">Deploy</span>
+                            </div>
+                            <ul class="day-tasks">
+                                <li>Database indexing and caching</li>
+                                <li>Unit/integration tests</li>
+                                <li>Azure/AWS deployment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Metrics -->
+        <div class="metrics-section" id="metrics">
+            <h3 class="section-title">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Month 1 Success Checklist
+            </h3>
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Google Authentication</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Habit Grid Dashboard</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Full Habit CRUD</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Daily Logging</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Google Fit Calories</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Distance Goals</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Streaks & Analytics</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Responsive Design</span>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-check">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <span class="metric-text">Deployed to Cloud</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="resources-grid">
+            <div class="resource-card dark" id="resources">
+                <h4 class="resource-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    Key Resources
+                </h4>
+                <ul class="resource-list">
+                    <li>Pro ASP.NET Core MVC by Adam Freeman</li>
+                    <li>Entity Framework Core in Action</li>
+                    <li>Clean Architecture by Robert Martin</li>
+                    <li>Microsoft Learn Platform</li>
+                    <li>Google Fit API Documentation</li>
+                </ul>
+            </div>
+            <div class="resource-card" id="pitfalls">
+                <h4 class="resource-title" style="color: var(--fg);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Pitfalls to Avoid
+                </h4>
+                <ul class="resource-list light">
+                    <li>Rushing database design phase</li>
+                    <li>Google login browser testing issues</li>
+                    <li>API rate limits and quotas</li>
+                    <li>Offline sync conflict handling</li>
+                    <li>Insecure token storage</li>
+                    <li>Missing loading states</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Beyond Month 1 -->
+        <div class="beyond-section" id="beyond">
+            <h4 class="beyond-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+                Beyond Month 1
+            </h4>
+            <div class="beyond-tags">
+                <span class="beyond-tag">Social Features</span>
+                <span class="beyond-tag">Habit Challenges</span>
+                <span class="beyond-tag">Data Export</span>
+                <span class="beyond-tag">Mobile App (MAUI)</span>
+                <span class="beyond-tag">ML Predictions</span>
+                <span class="beyond-tag">More Fitness APIs</span>
+                <span class="beyond-tag">Premium Tier</span>
+                <span class="beyond-tag">Team Challenges</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                </div>
+                <div>
+                    <strong style="font-family: 'Space Grotesk', sans-serif;">Habit Forge</strong>
+                    <p style="font-size: 0.75rem; color: var(--muted);">Prasannova Solutions</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/Prasannthedeveloper" target="_blank" class="footer-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/prasann-gaikawad-6910b1317/" target="_blank" class="footer-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    LinkedIn
+                </a>
+            </div>
+            <div class="footer-tagline">
+                Build your routine, one commit at a time.
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize intersection observer for scroll animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Add staggered delay based on element type
+                    const delay = entry.target.dataset.week 
+                        ? (parseInt(entry.target.dataset.week) - 1) * 150 
+                        : index * 100;
+                    
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, delay);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe week sections
+        document.querySelectorAll('.week-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Observe metrics section
+        const metricsSection = document.querySelector('.metrics-section');
+        if (metricsSection) {
+            observer.observe(metricsSection);
+        }
+
+        // Observe resource cards
+        document.querySelectorAll('.resource-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Observe beyond section
+        const beyondSection = document.querySelector('.beyond-section');
+        if (beyondSection) {
+            observer.observe(beyondSection);
+        }
+
+        // Add parallax effect to floating shapes
+        let ticking = false;
+        const shapes = document.querySelectorAll('.floating-shape');
+        
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    shapes.forEach((shape, index) => {
+                        const speed = index === 0 ? 0.05 : 0.03;
+                        shape.style.transform = `translateY(${scrollY * speed}px)`;
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Add hover effect enhancement for week cards
+        document.querySelectorAll('.week-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.01)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add click ripple effect to metric items
+        document.querySelectorAll('.metric-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    background: rgba(13, 148, 136, 0.3);
+                    border-radius: 50%;
+                    transform: translate(-50%, -50%) scale(0);
+                    animation: ripple 0.6s ease-out;
+                    left: ${x}px;
+                    top: ${y}px;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation keyframes dynamically
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: translate(-50%, -50%) scale(10);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Smooth scroll for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
